@@ -2,6 +2,7 @@
 A fully functional and scalable E-Commerce web application built using Django and PostgreSQL, featuring all the core functionalities of a modern online store.
 
 🚀 Features
+
 User authentication and authorization (Login/Register)
 
 Product listings 
