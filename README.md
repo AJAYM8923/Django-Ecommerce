@@ -24,6 +24,7 @@ Responsive frontend using HTML, CSS, Bootstrap
 PostgreSQL as the production-ready relational database
 
 🛠️ Tech Stack
+
 Backend: Django
 
 Frontend: HTML, CSS, Bootstrap, JavaScript
@@ -35,6 +36,7 @@ Payment Integration: Stripe
 Deployment: AWS
 
 💡 Future Improvements
+
 Product reviews and ratings
 
 Email notifications for order confirmations
@@ -46,6 +48,7 @@ Product search and sorting
 Coupons and discount codes
 
 🤝 Contributing
+
 Contributions are welcome! Feel free to fork this repo and submit a pull request.
 
 📬 Contact
