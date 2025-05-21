@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load cart_extras %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account | RedStore</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="logo" width="125px"></a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'product_list' %}">Products</a></li>
+
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+
+                </ul>
+            </nav>
+            <a href="{% url 'cart' %}"><img src="{% static 'images/cart.png' %}" width="30px" height="30px"></a>
+            <img src="{% static 'images/menu.png' %}" class="menu-icon" onclick="menutoggle()">
+        </div>
+    </div>
+
+
+    <h2>User Details</h2>
+    <form method="post" action="{% url 'update_account' %}">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="profile_update">
+
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" value="{{ user_profile.name }}"
+            required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" value="{{ user_profile.email }}"
+            required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" value="{{ user_profile.phone }}"
+            required>
+
+        <label for="alt_phone">Alternative Phone Number</label>
+        <input type="tel" id="alt_phone" name="alt_phone" placeholder="Enter alternative phone number"
+            value="{{ user_profile.alt_phone }}">
+
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" placeholder="Enter your address"
+            value="{{ user_profile.address }}" required>
+
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" placeholder="Enter your city" value="{{ user_profile.city }}" required>
+
+        <label for="pincode">Pincode</label>
+        <input type="number" id="pincode" name="pincode" placeholder="Enter your pincode"
+            value="{{ user_profile.pincode }}" required>
+
+        <label for="state">State</label>
+        <input type="text" id="state" name="state" placeholder="Enter your state" value="{{ user_profile.state }}"
+            required>
+
+        <button type="submit">Submit Details</button>
+    </form>
+
+    <hr>
+
+    <h2>Update Username and Password</h2>
+    <form method="post" action="{% url 'update_account' %}">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="user_update">
+
+        <label for="username">New Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter new username" required>
+
+        <label for="password">New Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter new password" required>
+
+        <button type="submit">Update</button>
+    </form>
+
+    <h2>Your Orders</h2>
+    {% if user_orders %}
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Date</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+            <th>Delivery Date</th>
+        </tr>
+        {% for order in user_orders %}
+        {% for item in order.items_with_names %}
+        <tr>
+            <td>
+                <a href="{% url 'product_details' item.product.id %}">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="100px">
+                </a>
+            </td>
+
+            <td>{{ item.product.name }}</td>
+            <td>{{ order.date }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.price|floatformat:2 }}</td>
+            <td>${{ item.price|multiply:item.quantity|floatformat:2 }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.delivery_date|date:"Y-m-d" }}</td>
+
+        </tr>
+        {% endfor %}
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>You have no orders yet.</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="btn">Continue Shopping</a>
+
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and ios mobile phone.</p>
+                    <div class="app-logo">
+                        <img src="{% static 'images/play-store.png' %}">
+                        <img src="{% static 'images/app-store.png' %}">
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src="{% static 'images/logo-white.png' %}">
+                    <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the
+                        Many.
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">Copyright 2025 - AJAY M</p>
+        </div>
+    </div>
+
+    <!-- javascript -->
+
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+        MenuItems.style.maxHeight = "0px";
+        function menutoggle() {
+            if (MenuItems.style.maxHeight == "0px") {
+                MenuItems.style.maxHeight = "200px"
+            }
+            else {
+                MenuItems.style.maxHeight = "0px"
+            }
+        }
+    </script>
+
+</body>
+
+</html>
